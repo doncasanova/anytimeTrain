@@ -23,7 +23,7 @@ var database = firebase.database();
 // console.log(database)
 
 // Whenever a user clicks the submit Add Employee button
-$("#submit-emp-btn").on("click", function (event) {
+$("form").on("submit", function (event) {
     // Prevent form from submitting
     event.preventDefault();
     // Get the input values
@@ -31,6 +31,7 @@ $("#submit-emp-btn").on("click", function (event) {
     var destination = $("#InputDestination").val().trim();
     var fristTime = parseInt(moment($("#InputFirstTime").val().trim(), "kk:mm").format("x"));
     var firstTimeConverted = (moment($("#InputFirstTime").val().trim(), "HH:mm").subtract(1, "years"));
+    var frequency = $("#InputTime").val().trim();
     console.log("first time  " + firstTimeConverted)
     
 

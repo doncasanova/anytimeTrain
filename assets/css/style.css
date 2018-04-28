@@ -1,4 +1,21 @@
-jumbtron{
-    background-image: url("beautiful_train_HD-photo.jpg");
-    /* background: url("beautiful_train_HD-photo.jpg") no-repeat ; */
+
+.trainStation{
+width: 100%;
+background-image: url("beautiful_train_HD-photo.jpg")!important;
+background-size: 100% ;
+background-repeat: no-repeat;
+height: 250px;
+max-width: 100%;
+margin: 0 auto;
 }
+@media(min-width: 1120px){
+    .trainStation2 {
+        width: 100%;
+        background-image: url("beautiful_train_HD-photo.jpg")!important;
+        background-repeat: no-repeat;
+        height: 500px;
+        background-size: 100% ;
+     }
+    }
+
+ 

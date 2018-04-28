@@ -1,7 +1,5 @@
 
 
-
-
 // Update schedule and clock every 15 seconds
 var clockTimer = setInterval(refreshTable, 15000);
 // Format current moment and update #station-clock
@@ -22,13 +20,12 @@ firebase.initializeApp(config);
 // Get a reference to the database service
 
 var database = firebase.database();
-
+// console.log(database)
 
 // Whenever a user clicks the submit Add Employee button
 $("#submit-emp-btn").on("click", function (event) {
     // Prevent form from submitting
     event.preventDefault();
-
     // Get the input values
     var trainName = $("#InputName").val().trim();
     var destination = $("#InputDestination").val().trim();
@@ -39,7 +36,7 @@ $("#submit-emp-btn").on("click", function (event) {
 
     //-----------------------------------------------------------------------------------
     
-    console.log(trainName, destination, frequency,nextTrain)
+    // console.log(trainName, destination, frequency,nextTrain)
     database.ref().push({
         trainName: trainName,
         destination: destination,
@@ -62,41 +59,11 @@ $("#submit-emp-btn").on("click", function (event) {
 // At the initial load and subsequent value changes, get a snapshot of the stored data.
 // This function allows you to update your page in real-time when the firebase database changes.
 database.ref().on("child_added", function (snapshot) {
-    refreshClock()
-    var trainRec = snapshot.val();
-    console.log(trainRec)
-    // Current Time
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-
-    var firstTrain = trainRec.firstTime;
-
-    // Difference between the times
-    var diffTime = moment().diff(moment(firstTrain), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
-
-    var frequency = trainRec.frequency;
-    //  var freqMill = (frequency * 10000000)
-
-    // Time apart (remainder)
-    var tRemainder = diffTime % frequency;
-
-
-
-    // Minute Until Train
-    var tMinutesTillTrain = frequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-
-    // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("hh:mm");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-    // console.log(tRemainder);
-
-    // Table Columns: <id=pkey hidden>, Name, Role, Start, Months(computed), Rate, YTD(computed)
-    $("#train-table-body").append(`<tr id="${snapshot.key}"><td>${trainRec.trainName}</td><td>${trainRec.destination}</td><td>${trainRec.frequency}</td><td>${nextTrain}</td><td>${tMinutesTillTrain}</td></tr>`)
-
+     displayTrain(snapshot)
+   
 });
-// Refresh the train table (avoid realtime event lag)
+
+// Refresh the train table 
 function refreshTable() {
     // Refresh the clock
     refreshClock();
@@ -105,7 +72,39 @@ function refreshTable() {
     $("#train-table-body").empty();
 
     // Query dbref (order by pkey, no limit) and display each train
-    database.ref().orderByKey().on("child_added", function (snapshot) {
+    database.ref().on("child_added", function (snapshot) {
         displayTrain(snapshot);
+        
     })
 }
+function displayTrain(snapshot) {
+    var trainRec = snapshot.val();
+    // console.log(trainRec)
+    // Current Time
+    var currentTime = moment();
+    // console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    var firstTrain = trainRec.firstTime;
+
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTrain), "minutes");
+    // console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    var frequency = trainRec.frequency;
+    //  var freqMill = (frequency * 10000000)
+
+    // Time apart (remainder)
+    var tRemainder = diffTime % frequency;
+
+    // Minute Until Train
+    var tMinutesTillTrain = frequency - tRemainder;
+    // console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("hh:mm");
+    // console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    // console.log(tRemainder);
+
+    // Table Columns: <id=pkey hidden>, Name, Role, Start, Months(computed), Rate, YTD(computed)
+    $("#train-table-body").append(`<tr id="${snapshot.key}"><td>${trainRec.trainName}</td><td>${trainRec.destination}</td><td>${trainRec.frequency}</td><td>${nextTrain}</td><td>${tMinutesTillTrain}</td></tr>`)
+    }

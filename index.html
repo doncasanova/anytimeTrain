@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Train Schedual</title>
+    <title>Train Schedule</title>
 
     <!-- Link to jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -32,15 +32,15 @@
             </h3>
 
     <!-- Jumbotron for Title -->
-    <div class="jumbotron border-bottom border-dark">
+    <div class="container trainStation trainStation2">
         <h1 class="text-center">Train Scheduler</h1>
-        <h2 class="text-center">A Comprehensive Directory of Employee Billable Hours</h2>
+        <h2 class="text-center">If you cant find it here well???</h2>
     </div>
 
     <!-- Bootstrap Container -->
-    <div class="container">
+    <div class="container ">
         <div class="row border border-dark">
-            <table id="emp-table" class="table table-hover">
+            <table id="train-table" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Train Name</th>
@@ -55,7 +55,7 @@
             </table>
         </div>
         <br>
-        <div class="col-5 border border-dark">
+        <div class="col-6 border border-dark">
             <h2>Add Train</h2>
             <form>
                 <div class="form-group">
@@ -74,7 +74,7 @@
                     <label for="InputTime">Frequency (min)</label>
                     <input type="text" class="form-control" id="InputTime" placeholder="Enter Rate">
                 </div>
-                <button id="submit-emp-btn" type="submit" class="btn btn-primary">Submit</button>
+                <button id="submit-train-btn" type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
